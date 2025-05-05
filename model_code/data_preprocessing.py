@@ -32,8 +32,14 @@ def preprocess_dataset(dataset):
 
 def to_bag_of_words(corpus, dataset):
     cv = sklearn.feature_extraction.text.CountVectorizer(max_features=140)
-    X = cv.fit_transform(corpus).toarray()
+    cv_model = cv.fit(corpus)
+
+    joblib.dump(model, '../models/count_vectorizer') 
+
+    X = cv_model.transform(corpus).toarray()
     y = dataset.iloc[: , -1].values
+
+
     return X, y
 
 def get_dataset():
