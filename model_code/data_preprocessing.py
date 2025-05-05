@@ -4,6 +4,7 @@ import pandas as pd
 import nltk 
 import re 
 import sklearn
+import joblib
 
 from sklearn.model_selection import train_test_split
 
@@ -34,7 +35,7 @@ def to_bag_of_words(corpus, dataset):
     cv = sklearn.feature_extraction.text.CountVectorizer(max_features=140)
     cv_model = cv.fit(corpus)
 
-    joblib.dump(model, '../models/count_vectorizer') 
+    joblib.dump(cv_model, 'models/count_vectorizer.joblib') 
 
     X = cv_model.transform(corpus).toarray()
     y = dataset.iloc[: , -1].values
