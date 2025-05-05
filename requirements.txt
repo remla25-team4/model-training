@@ -3,3 +3,4 @@ pandas==2.2.0
 numpy==1.26.3
 nltk==3.8.1
 joblib==1.3.2 
+lib-ml @ git+https://github.com/remla25-team4/lib-ml.git@v0.1.0

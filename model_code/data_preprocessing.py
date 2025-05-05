@@ -7,29 +7,39 @@ import sklearn
 import joblib
 
 from sklearn.model_selection import train_test_split
+from lib_ml.preprocessing import preprocess
 
 
-def preprocess_dataset(dataset):
+# TODO: remove once we verify that the entire workflow works with imports
+#def preprocess_dataset(dataset):
     # Get English stopwords.
 
-    nltk.download('stopwords')
-    words_to_remove = nltk.corpus.stopwords.words('english')
-    words_to_remove.remove('not')
+#    nltk.download('stopwords')
+#    words_to_remove = nltk.corpus.stopwords.words('english')
+#    words_to_remove.remove('not')
 
-    reviews = []
+#    reviews = []
 
-    for review in dataset['Review']:
-        # Preprocess review string into a list of words
-        preprocessed_review = re.sub('[^a-zA-Z]', ' ', review)
-        preprocessed_review = preprocessed_review.lower()
-        preprocessed_review = preprocessed_review.split()
+#    for review in dataset['Review']:
+#        # Preprocess review string into a list of words
+#        preprocessed_review = re.sub('[^a-zA-Z]', ' ', review)
+#        preprocessed_review = preprocessed_review.lower()
+#        preprocessed_review = preprocessed_review.split()
 
-        # Remove the stopwords
-        preprocessed_review = [word for word in preprocessed_review if word not in words_to_remove]
+#        # Remove the stopwords
+#        preprocessed_review = [word for word in preprocessed_review if word not in words_to_remove]
 
-        reviews.append(' '.join(preprocessed_review))
+#        reviews.append(' '.join(preprocessed_review))
 
+#    return reviews
+
+def preprocess_dataset(dataset):
+    # Preprocess dataset to a list and then use the lib-ml preprocessing library
+    dataset_as_list = dataset['Review'].to_list()
+    reviews = preprocess(dataset_as_list)
+    
     return reviews
+
 
 def to_bag_of_words(corpus, dataset):
     cv = sklearn.feature_extraction.text.CountVectorizer(max_features=140)
@@ -39,7 +49,6 @@ def to_bag_of_words(corpus, dataset):
 
     X = cv_model.transform(corpus).toarray()
     y = dataset.iloc[: , -1].values
-
 
     return X, y
 
