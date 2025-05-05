@@ -40,7 +40,7 @@ def get_dataset():
     # Read the dataset.
     # Dataset obtained from https://github.com/aadimangla/Restaurant-Reviews-Sentiment-Analysis/blob/master/Dataset/Restaurant_Reviews.tsv
 
-    dataset = pd.read_csv("../datasets/training_dataset.tsv", delimiter = '\t')
+    dataset = pd.read_csv("datasets/training_dataset.tsv", delimiter = '\t')
     corpus = preprocess_dataset(dataset)
 
     X, y = to_bag_of_words(corpus, dataset)
