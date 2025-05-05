@@ -19,7 +19,7 @@ def train_model(X_train, X_test, y_train, y_test):
     return classifier
 
 def save_model(model):
-    joblib.dump(model, '../models/naive_bayes') 
+    joblib.dump(model, 'models/naive_bayes.joblib') 
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = get_dataset()
