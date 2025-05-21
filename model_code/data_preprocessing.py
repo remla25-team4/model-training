@@ -21,7 +21,7 @@ def to_bag_of_words(corpus, dataset):
     cv = sklearn.feature_extraction.text.CountVectorizer(max_features=140)
     cv_model = cv.fit(corpus)
 
-    joblib.dump(cv_model, 'models/count_vectorizer.joblib') 
+    joblib.dump(cv_model, 'models/count_vectorizer.joblib')
 
     X = cv_model.transform(corpus).toarray()
     y = dataset.iloc[: , -1].values

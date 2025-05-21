@@ -1,9 +1,9 @@
 import pytest
 import pandas as pd
-
 from lib_ml.preprocessing import preprocess
+import nltk
 
-# Feature and data testing. 
+# Feature and data testing.
 # Wwe check that the preprocessed input strings contain no caps and stop words other than 'not'.
 
 @pytest.fixture
@@ -61,6 +61,7 @@ def stemming_data():
 
 
 def test_stopwords_removal(stopwords_removal_data):
+    nltk.download('wordnet')
     # Remove stopwords for each input and check against expected output.
     for _, row in stopwords_removal_data.iterrows():
         input_text = row["input_text"]
@@ -70,6 +71,7 @@ def test_stopwords_removal(stopwords_removal_data):
 
 
 def test_stemming(stemming_data):
+    nltk.download('wordnet')
     # Do stemming on each input and check against expected output.
     for _, row in stemming_data.iterrows():
         input_text = row["input_text"]

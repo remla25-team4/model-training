@@ -43,8 +43,8 @@ def replace_with_synonyms(text):
 @pytest.fixture(scope="module")
 def model_and_vectorizer():
     # Load model and vectorizer (adjust paths accordingly)
-    model = load("../models/naive_bayes.joblib")
-    vectorizer = load("../models/count_vectorizer.joblib")
+    model = load("models/naive_bayes.joblib")
+    vectorizer = load("models/count_vectorizer.joblib")
     return model, vectorizer
 
 # The text inputs to provide synonyms for
