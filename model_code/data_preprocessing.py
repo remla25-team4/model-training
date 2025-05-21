@@ -9,30 +9,6 @@ import joblib
 from sklearn.model_selection import train_test_split
 from lib_ml.preprocessing import preprocess
 
-
-# TODO: remove once we verify that the entire workflow works with imports
-#def preprocess_dataset(dataset):
-    # Get English stopwords.
-
-#    nltk.download('stopwords')
-#    words_to_remove = nltk.corpus.stopwords.words('english')
-#    words_to_remove.remove('not')
-
-#    reviews = []
-
-#    for review in dataset['Review']:
-#        # Preprocess review string into a list of words
-#        preprocessed_review = re.sub('[^a-zA-Z]', ' ', review)
-#        preprocessed_review = preprocessed_review.lower()
-#        preprocessed_review = preprocessed_review.split()
-
-#        # Remove the stopwords
-#        preprocessed_review = [word for word in preprocessed_review if word not in words_to_remove]
-
-#        reviews.append(' '.join(preprocessed_review))
-
-#    return reviews
-
 def preprocess_dataset(dataset):
     # Preprocess dataset to a list and then use the lib-ml preprocessing library
     dataset_as_list = dataset['Review'].to_list()
