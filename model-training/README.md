@@ -1,61 +1,92 @@
 # model-training
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
+## Overview
 
-training pipeline for REMLA (ass4)
+This repo contains the training pipeline for the Sentiment Analysis model
 
-## Project Organization
+The training process is now organized using the Cookiecutter DS project structure. It separates the pipeline into 3 stages:
+1. **Data preparation** (`data_processing.py`)
+2. **Model training** (`training.py`)
+3. **Model evaluation** (`evaluation.py`)
+
+The trained model and vectorizer are saved as `.joblib` files and used by the `model-service` for inference.
+
+---
+
+## Project Structure
 
 ```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         model_training and configuration for tools like black
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── model_training   <- Source code for use in this project.
-    │
-    ├── __init__.py             <- Makes model_training a Python module
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── features.py             <- Code to create features for modeling
-    │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
-    │
-    └── plots.py                <- Code to create visualizations
+model-training/
+── data
+│   ├── external
+│   ├── interim
+│   ├── processed
+│   └── raw
+|    	└── training_dataset.tsv
+|
+├── docs
+├── LICENSE
+├── Makefile
+├── models
+│   ├── count_vectorizer.joblib
+│   └── naive_bayes.joblib
+├── model_training
+│   ├── data_processing.py
+│   ├── evaluation.py
+│   ├── __init__.py
+│   └── training.py
+├── notebooks
+├── pyproject.toml
+├── README.md
+├── references
+├── reports
+│   └── figures
+├── requirements.txt
+├── setup.cfg
+└── tests
+    ├── test_preprocessing.py
+    └── test_robustness.py
+
 ```
 
---------
+---
 
+## Installation
+
+Install all dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
+
+
+---
+
+## Usage
+
+### Train the model:
+```bash
+python model_training/training.py
+```
+
+This will:
+- Load and preprocess the dataset in `data/raw/`
+- Train a `GaussianNB` classifier
+- Save the model and vectorizer in `models/`
+
+### Evaluate the model:
+```bash
+python model_training/evaluation.py
+```
+
+---
+
+## Testing
+
+Run tests with:
+```bash
+pytest tests/
+```
+
+
+---
