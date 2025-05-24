@@ -7,3 +7,11 @@ stages:
     outs:
     - models/count_vectorizer.joblib
     - models/naive_bayes.joblib
+  evaluate:
+    cmd: python3 model_training/evaluation.py
+    deps:
+    - model_training/evaluation.py
+    - models/naive_bayes.joblib
+    metrics:
+    - metrics/evaluation_metrics.json:
+        cache: false
