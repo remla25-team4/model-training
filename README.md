@@ -44,7 +44,7 @@ model-training/
 ├── requirements.txt
 ├── setup.cfg
 ├── metrics
-│   └── evauation_metrics.json
+│   └── evaluation_metrics.json
 └── tests
     ├── test_preprocessing.py
     └── test_robustness.py
@@ -61,6 +61,12 @@ Install all dependencies using:
 pip install -r requirements.txt
 ```
 
+Install DVC and the Google Drive plugin:
+
+```bash
+pip install dvc dvc-gdrive
+```
+
 
 ---
 
@@ -72,10 +78,7 @@ pip install -r requirements.txt
 python3 model_training/training.py
 ```
 
-This will:
-- Load and preprocess the dataset in `data/raw/`
-- Train a `GaussianNB` classifier
-- Save the model and vectorizer in `models/`
+
 
 ### Evaluate the model:
 ```bash
@@ -95,6 +98,7 @@ pytest tests/
 ---
 
 ## DVC
+You can run the training and evaluation scripts manually, or use DVC to reproduce the full pipeline including versioned data, models, and metrics. 
 
 ### Remote Storage
 
@@ -103,8 +107,16 @@ The trained models and metrics are stored in a [Google Drive DVC remote](https:/
 
 To reproduce the pipeline and download all required files:
 
+### To clone and setup:
+
 ```bash
-pip install dvc
+git clone git@github.com:remla25-team4/model-training.git
 dvc pull
+```
+
+### To reproduce the full pipeline:
+
+```bash
 dvc repro
 ```
+
