@@ -15,14 +15,14 @@ def to_bag_of_words(corpus, dataset):
     cv = CountVectorizer(max_features=140)
     cv_model = cv.fit(corpus)
 
-    joblib.dump(cv_model, 'model-training/models/count_vectorizer.joblib')
+    joblib.dump(cv_model, 'models/count_vectorizer.joblib')
 
     X = cv_model.transform(corpus).toarray()
     y = dataset.iloc[:, -1].values
     return X, y
 
 def get_dataset():
-    dataset = pd.read_csv("datasets/training_dataset.tsv", delimiter='\t')
+    dataset = pd.read_csv("data/raw/training_dataset.tsv", delimiter='\t')
     corpus = preprocess_dataset(dataset)
     X, y = to_bag_of_words(corpus, dataset)
     return train_test_split(X, y, test_size=0.20, random_state=42)
