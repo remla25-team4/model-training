@@ -1,0 +1,9 @@
+stages:
+  train:
+    cmd: python3 model_training/training.py
+    deps:
+    - data/raw/training_dataset.tsv
+    - model_training/training.py
+    outs:
+    - models/count_vectorizer.joblib
+    - models/naive_bayes.joblib

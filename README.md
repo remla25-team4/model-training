@@ -66,7 +66,8 @@ pip install -r requirements.txt
 
 ### Train the model:
 ```bash
-python model_training/training.py
+
+python3 model_training/training.py
 ```
 
 This will:
@@ -76,7 +77,7 @@ This will:
 
 ### Evaluate the model:
 ```bash
-python model_training/evaluation.py
+python3 model_training/evaluation.py
 ```
 
 ---
@@ -90,3 +91,18 @@ pytest tests/
 
 
 ---
+
+## DVC
+
+### Remote Storage
+
+DVC is used to manage the training pipeline and version model.
+The trained models and metrics are stored in a [Google Drive DVC remote](https://drive.google.com/drive/folders/1Zos2D5nXmVBMFA8ekO_p7VZTqyAcy1q3).
+
+To reproduce the pipeline and download all required files:
+
+```bash
+pip install dvc
+dvc pull
+dvc repro
+```
