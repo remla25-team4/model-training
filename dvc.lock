@@ -1,0 +1,38 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python3 model_training/training.py
+    deps:
+    - path: data/raw/training_dataset.tsv
+      hash: md5
+      md5: 262a54e658ab7192e7c22a9ef8eb7909
+      size: 61332
+    - path: model_training/training.py
+      hash: md5
+      md5: f11c321da308dfa69f5b6a9ade0dee7e
+      size: 754
+    outs:
+    - path: models/count_vectorizer.joblib
+      hash: md5
+      md5: 141874395ea38cbf49b5f152b09cadd4
+      size: 4301
+    - path: models/naive_bayes.joblib
+      hash: md5
+      md5: 7b1d2e0e4d677a38dd81b76ee5db5fea
+      size: 5255
+  evaluate:
+    cmd: python3 model_training/evaluation.py
+    deps:
+    - path: model_training/evaluation.py
+      hash: md5
+      md5: ea896d88fbf0b13c6ebf932255223622
+      size: 768
+    - path: models/naive_bayes.joblib
+      hash: md5
+      md5: 7b1d2e0e4d677a38dd81b76ee5db5fea
+      size: 5255
+    outs:
+    - path: metrics/evaluation_metrics.json
+      hash: md5
+      md5: cfe552d1a5b0056f71162278084e8082
+      size: 76
