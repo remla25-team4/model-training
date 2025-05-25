@@ -1,16 +1,16 @@
 stages:
   train:
-    cmd: python3 model_training/training.py
+    cmd: python3 pipeline/training.py
     deps:
     - data/raw/training_dataset.tsv
-    - model_training/training.py
+    - pipeline/training.py
     outs:
     - models/count_vectorizer.joblib
     - models/naive_bayes.joblib
   evaluate:
-    cmd: python3 model_training/evaluation.py
+    cmd: python3 pipeline/evaluation.py
     deps:
-    - model_training/evaluation.py
+    - pipeline/evaluation.py
     - models/naive_bayes.joblib
     metrics:
     - metrics/evaluation_metrics.json:

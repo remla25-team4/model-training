@@ -6,7 +6,7 @@ import joblib
     
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, accuracy_score
-from model_training.data_processing import get_dataset
+from pipeline.data_processing import get_dataset
 
 
 
