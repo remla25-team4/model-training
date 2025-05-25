@@ -22,7 +22,7 @@ def to_bag_of_words(corpus, dataset):
     return X, y
 
 def get_dataset():
-    dataset = pd.read_csv("data/raw/training_dataset.tsv", delimiter='\t')
+    dataset = pd.read_csv("datasets/training_dataset.tsv", delimiter='\t')
     corpus = preprocess_dataset(dataset)
     X, y = to_bag_of_words(corpus, dataset)
     return train_test_split(X, y, test_size=0.20, random_state=42)

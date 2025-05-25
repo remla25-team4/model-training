@@ -2,7 +2,7 @@ stages:
   train:
     cmd: python3 pipeline/training.py
     deps:
-    - data/raw/training_dataset.tsv
+    - datasets/training_dataset.tsv
     - pipeline/training.py
     outs:
     - models/count_vectorizer.joblib
