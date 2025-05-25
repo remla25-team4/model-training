@@ -128,6 +128,3 @@ dvc pull
 ```bash
 dvc repro
 ```
-
- On first use, you'll be prompted to authenticate via a browser window. Make sure you're logged into the Google account that has access to the storage.
----
