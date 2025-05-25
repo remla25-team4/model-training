@@ -1,6 +1,7 @@
 # Data
 /data/
 !data/raw/training_dataset.tsv.dvc
+dvc.lock
 
 # Mac OS-specific storage files
 .DS_Store
