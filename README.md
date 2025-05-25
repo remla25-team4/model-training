@@ -70,6 +70,13 @@ pip install dvc dvc-gdrive
 
 ---
 
+**Important!**
+
+Then, run the following script to make sure needed nltk corpora is installed on your machine:
+
+```bash
+python setup_nltk.py
+```
 ## Usage
 
 ### Train the model:
