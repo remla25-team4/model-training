@@ -6,11 +6,12 @@ import joblib
     
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, accuracy_score
-from model_training.data_processing import get_dataset
+from pipeline.data_processing import get_dataset
+
 
 
 def train_model(X_train, X_test, y_train, y_test):
-    classifier = GaussianNB()
+    classifier = GaussianNB(var_smoothing=2e-9)
     classifier.fit(X_train, y_train)
 
     y_pred = classifier.predict(X_test)
@@ -23,11 +24,13 @@ def train_model(X_train, X_test, y_train, y_test):
 
     return classifier
 
+
 def save_model(model):
     joblib.dump(model, 'models/naive_bayes.joblib')
 
+
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = get_dataset()
-    
+
     model = train_model(X_train, X_test, y_train, y_test)
     save_model(model)

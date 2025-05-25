@@ -30,7 +30,7 @@ model-training/
 ├── models
 │   ├── count_vectorizer.joblib
 │   └── naive_bayes.joblib
-├── model_training
+├── pipeline_dvc
 │   ├── data_processing.py
 │   ├── evaluation.py
 │   ├── __init__.py
@@ -80,14 +80,14 @@ python setup_nltk.py
 ### Train the model:
 ```bash
 
-python3 model_training/training.py
+python3 pipeline/training.py
 ```
 
 
 
 ### Evaluate the model:
 ```bash
-python3 model_training/evaluation.py
+python3 pipeline/evaluation.py
 ```
 
 ---
