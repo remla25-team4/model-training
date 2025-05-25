@@ -30,7 +30,7 @@ model-training/
 ├── models
 │   ├── count_vectorizer.joblib
 │   └── naive_bayes.joblib
-├── pipeline_dvc
+├── pipeline
 │   ├── data_processing.py
 │   ├── evaluation.py
 │   ├── __init__.py
