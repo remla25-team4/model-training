@@ -1,7 +1,7 @@
 import joblib
 import json
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
-from data_preprocessing import get_dataset
+from model_training.data_processing import get_dataset
 
 
 if __name__ == "__main__":
