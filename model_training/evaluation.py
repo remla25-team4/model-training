@@ -16,7 +16,11 @@ if __name__ == "__main__":
 	metrics = {
         	"accuracy": acc,
         	"precision": report["weighted avg"]["precision"],
-        	"recall": report["weighted avg"]["recall"]}
+        	"recall": report["weighted avg"]["recall"]
+	}
+
+	for metric in metrics:
+		print(f'{metric}: {metrics[metric]}')
 
 	with open("metrics/evaluation_metrics.json", "w") as f:
 		json.dump(metrics, f, indent=2)

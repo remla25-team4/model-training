@@ -61,13 +61,6 @@ Install all dependencies using:
 pip install -r requirements.txt
 ```
 
-Install DVC and the Google Drive plugin:
-
-```bash
-pip install dvc dvc-gdrive
-```
-
-
 **Important!**
 
 Then, run the following script to make sure needed nltk corpora is installed on your machine:
@@ -80,6 +73,9 @@ python setup_nltk.py
 ---
 
 ## Usage
+
+### Preprocess the data
+
 
 ### Train the model:
 ```bash
@@ -134,5 +130,4 @@ dvc repro
 ```
 
  On first use, you'll be prompted to authenticate via a browser window. Make sure you're logged into the Google account that has access to the storage.
-
 ---
