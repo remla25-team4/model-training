@@ -1,8 +1,13 @@
+#this is the mdoel training file
+
+
 import joblib
 
-from data_preprocessing import get_dataset
+    
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, accuracy_score
+from model_training.data_processing import get_dataset
+
 
 
 def train_model(X_train, X_test, y_train, y_test):
