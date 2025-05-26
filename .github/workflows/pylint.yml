@@ -1,0 +1,77 @@
+name: Pylint
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    steps:
+   - name: Checkout code
+     uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run Pylint
+      id: pylint
+      run: |
+        # Run pylint and save output to a file
+        pylint pipeline notebooks tests > pylint_output.txt || true
+        
+        # Extract score using grep and sed
+        SCORE=$(grep -o "Your code has been rated at [0-9]\+\.[0-9]\+/10" pylint_output.txt | sed 's/Your code has been rated at \([0-9.]*\)\/10/\1/')
+        
+        # Set score as output variable
+        echo "score=$SCORE" >> $GITHUB_OUTPUT
+    
+    - name: Update README with Pylint Score
+      if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main')
+      run: |
+        # Get score from previous step
+        SCORE="${{ steps.pylint.outputs.score }}"
+        
+        # Determine badge color based on score
+        if (( $(echo "$SCORE >= 9.0" | bc -l) )); then
+          COLOR="brightgreen"
+        elif (( $(echo "$SCORE >= 8.0" | bc -l) )); then
+          COLOR="green"
+        elif (( $(echo "$SCORE >= 7.0" | bc -l) )); then
+          COLOR="yellowgreen"
+        elif (( $(echo "$SCORE >= 6.0" | bc -l) )); then
+          COLOR="yellow"
+        else
+          COLOR="red"
+        fi
+        
+        # Create badge URL
+        BADGE_URL="https://img.shields.io/badge/pylint-${SCORE}%2F10-${COLOR}"
+        
+        # Update README.md
+        if grep -q "!\[Pylint Score\]" README.md; then
+          # Update existing badge
+          sed -i "s|!\[Pylint Score\](https://img.shields.io/badge/pylint-[0-9.]*%2F10-[a-z]*)|![Pylint Score](${BADGE_URL})|g" README.md
+        else
+          # Add badge after first heading
+          sed -i "0,/^# /s/^# \(.*\)$/# \1\n\n![Pylint Score](${BADGE_URL})/" README.md
+        fi
+    
+    - name: Commit and push README changes
+      if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main')
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git diff --quiet README.md || (git add README.md && git commit -m "Update Pylint score badge [skip ci]" && git push)
