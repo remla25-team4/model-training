@@ -54,6 +54,11 @@ model-training/
 ---
 
 ## Installation
+It is recommended to use a virtual environment with python 3.10
+```bash
+python3.10 -m venv venv
+source venv/bin/activate
+```
 
 Install all dependencies using:
 
