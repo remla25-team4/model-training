@@ -1,9 +1,5 @@
-#this is the mdoel training file
-
-
 import joblib
 
-    
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, accuracy_score
 from pipeline.data_processing import get_dataset
