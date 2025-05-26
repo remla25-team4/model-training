@@ -35,7 +35,13 @@ jobs:
         
         # Set score as output variable
         echo "score=$SCORE" >> $GITHUB_OUTPUT
-    
+        
+    - name: Upload Pylint Output
+      uses: actions/upload-artifact@v3
+      with:
+        name: pylint-results
+        path: pylint_output.txt
+
     - name: Update README with Pylint Score
       run: |
         # Get score from previous step
