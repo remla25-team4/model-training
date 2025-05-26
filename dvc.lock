@@ -14,7 +14,7 @@ stages:
     outs:
     - path: models/count_vectorizer.joblib
       hash: md5
-      md5: 6ff98517814c7f022f831f526cd61121
+      md5: d4586c04696eace106ce215efe3ea32f
       size: 4300
     - path: models/naive_bayes.joblib
       hash: md5
