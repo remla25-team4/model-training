@@ -2,8 +2,6 @@ name: Pylint
 
 on:
   push:
-  pull_request:
-    branches: [ main ]
 
 jobs:
   lint:
@@ -39,7 +37,6 @@ jobs:
         echo "score=$SCORE" >> $GITHUB_OUTPUT
     
     - name: Update README with Pylint Score
-      if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main')
       run: |
         # Get score from previous step
         SCORE="${{ steps.pylint.outputs.score }}"
@@ -70,7 +67,6 @@ jobs:
         fi
     
     - name: Commit and push README changes
-      if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main')
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
