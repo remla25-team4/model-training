@@ -9,12 +9,12 @@ stages:
       size: 61332
     - path: pipeline/training.py
       hash: md5
-      md5: 553720725f063aca4d189c378db6c4e8
-      size: 765
+      md5: 18365a7782b3388f91ee2f693fe65efb
+      size: 730
     outs:
     - path: models/count_vectorizer.joblib
       hash: md5
-      md5: d4586c04696eace106ce215efe3ea32f
+      md5: ab156925676a1f27ed11d497e060f24e
       size: 4300
     - path: models/naive_bayes.joblib
       hash: md5
