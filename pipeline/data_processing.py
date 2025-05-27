@@ -1,5 +1,4 @@
-#the data processing file
-
+import os
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
@@ -22,8 +21,23 @@ def to_bag_of_words(corpus, dataset):
     return X, y
 
 def get_dataset():
-    dataset = pd.read_csv("datasets/training_dataset.tsv", delimiter='\t')
+    dataset = pd.read_csv("data/raw/training_dataset.tsv", delimiter='\t')
     corpus = preprocess_dataset(dataset)
     X, y = to_bag_of_words(corpus, dataset)
     return train_test_split(X, y, test_size=0.20, random_state=42)
+
+if __name__ == "__main__":
+    X_train, X_test, y_train, y_test = get_dataset()
+
+    print(X_train.shape, y_train.shape)
+
+    processed_data_dir = 'data/processed'
+    os.makedirs(processed_data_dir, exist_ok=True)
+
+    # --- Save the processed data ---
+    joblib.dump(X_train, os.path.join(processed_data_dir, 'X_train.joblib'))
+    joblib.dump(X_test, os.path.join(processed_data_dir, 'X_test.joblib'))
+
+    joblib.dump(y_train, os.path.join(processed_data_dir, 'y_train.joblib'))
+    joblib.dump(y_test, os.path.join(processed_data_dir, 'y_test.joblib'))
 

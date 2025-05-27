@@ -1,5 +1,4 @@
 # Data
-/data/
 !data/raw/training_dataset.tsv.dvc
 
 # Mac OS-specific storage files

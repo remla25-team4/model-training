@@ -1,5 +1,11 @@
 # model-training
 
+<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
+    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
+</a>
+
+This project closely follows the [Cookiecutter template](https://github.com/drivendataorg/cookiecutter-data-science), a template that incorporates best practices for data science.
+
 ## Overview
 
 This repo contains the training pipeline for the Sentiment Analysis model
