@@ -26,6 +26,8 @@ stages:
   evaluate:
     cmd: python3 pipeline/evaluation.py
     deps:
+    - data/processed/X_test.joblib
+    - data/processed/y_test.joblib
     - pipeline/evaluation.py
     - models/naive_bayes.joblib
     metrics:
