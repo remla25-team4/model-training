@@ -3,7 +3,7 @@ stages:
   train:
     cmd: python3 pipeline/training.py
     deps:
-    - path: datasets/training_dataset.tsv
+    - path: data/raw/training_dataset.tsv
       hash: md5
       md5: 262a54e658ab7192e7c22a9ef8eb7909
       size: 61332
@@ -14,7 +14,7 @@ stages:
     outs:
     - path: models/count_vectorizer.joblib
       hash: md5
-      md5: d4586c04696eace106ce215efe3ea32f
+      md5: 6d72cb8bc420b401aec3009000e5277f
       size: 4300
     - path: models/naive_bayes.joblib
       hash: md5
