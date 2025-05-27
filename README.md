@@ -25,37 +25,47 @@ The trained model and vectorizer are saved as `.joblib` files and used by the `m
 
 ```
 model-training/
-── data
-│   ├── external
-│   ├── interim
-│   ├── processed
-│   └── raw
-|    	└── training_dataset.tsv
-|
-├── docs
+├── .dvc/
+├── .github/
+├── data/
+│   ├── processed/
+│   │   ├── .gitignore
+│   │   ├── X_test.joblib
+│   │   ├── X_train.joblib
+│   │   ├── y_test.joblib
+│   │   └── y_train.joblib
+│   ├── raw/
+│   │   ├── .gitignore
+│   │   ├── training_dataset.tsv
+│   │   └── training_dataset.tsv.dvc
+│   └── .gitkeep
+├── docs/
 ├── LICENSE
 ├── Makefile
-├── models
-│   ├── count_vectorizer.joblib
-│   └── naive_bayes.joblib
-├── pipeline
-│   ├── data_processing.py
-│   ├── evaluation.py
-│   ├── __init__.py
-│   └── training.py
-├── notebooks
+├── metrics/
+│   └── evaluation_metrics.json
+├── models/
+│   ├── count_vectorizer.joblib
+│   └── naive_bayes.joblib
+├── notebooks/
+├── pipeline/
+│   ├── data_processing.py
+│   ├── evaluation.py
+│   ├── __init__.py
+│   └── training.py
 ├── pyproject.toml
 ├── README.md
-├── references
-├── reports
-│   └── figures
+├── references/
+├── reports/
+│   └── figures/
 ├── requirements.txt
 ├── setup.cfg
-├── metrics
-│   └── evaluation_metrics.json
-└── tests
+└── tests/
+    ├── test_model_development.py
+    ├── test_monitoring.py
     ├── test_preprocessing.py
     └── test_robustness.py
+    
 
 ```
 
