@@ -6,6 +6,8 @@
 
 This project closely follows the [Cookiecutter template](https://github.com/drivendataorg/cookiecutter-data-science), a template that incorporates best practices for data science.
 
+![Pylint Score](https://img.shields.io/badge/pylint-5.27%2F10-red)
+
 ## Overview
 
 This repo contains the training pipeline for the Sentiment Analysis model
@@ -60,6 +62,11 @@ model-training/
 ---
 
 ## Installation
+It is recommended to use a virtual environment with python 3.10
+```bash
+python3.10 -m venv venv
+source venv/bin/activate
+```
 
 Install all dependencies using:
 
@@ -135,5 +142,5 @@ dvc pull
 dvc repro
 ```
 
- On first use, you'll be prompted to authenticate via a browser window. Make sure you're logged into the Google account that has access to the storage.
+ We are currently using a service account on Google Cloud to access our data with dvc. In order to access our service account you will need the json key file.
 ---

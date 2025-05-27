@@ -1,10 +1,9 @@
-# pipeline/training.py
-
 import joblib
 import pandas as pd
 import json  # For saving metrics
 import os
 
+    
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, accuracy_score
 
@@ -42,10 +41,10 @@ def train_model(X_train, X_test, y_train, y_test):
     y_pred = classifier.predict(X_test)
 
     cm = confusion_matrix(y_test, y_pred)
-    acc = accuracy_score(y_test, y_pred)
-
     print("Confusion Matrix:")
     print(cm)
+
+    acc = accuracy_score(y_test, y_pred)
     print(f"Accuracy: {acc:.4f}")
 
     return classifier

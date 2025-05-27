@@ -1,5 +1,37 @@
 schema: '2.0'
 stages:
+  preprocess:
+    cmd: python pipeline/data_processing.py
+    deps:
+    - path: data/raw/training_dataset.tsv
+      hash: md5
+      md5: 262a54e658ab7192e7c22a9ef8eb7909
+      size: 61332
+    - path: pipeline/data_processing.py
+      hash: md5
+      md5: c6d0f6b4436a3296210e00455e08c56d
+      size: 1424
+    outs:
+    - path: data/processed/X_test.joblib
+      hash: md5
+      md5: fba28a3d9829a77713b8207241d6b01a
+      size: 224225
+    - path: data/processed/X_train.joblib
+      hash: md5
+      md5: 2a0011aec584dd956a8a67bdac016428
+      size: 896241
+    - path: data/processed/y_test.joblib
+      hash: md5
+      md5: 3e7d8c0a94197e58d76b50b748fadded
+      size: 1825
+    - path: data/processed/y_train.joblib
+      hash: md5
+      md5: bba064b8647da013902eaee5aa63c5dc
+      size: 6625
+    - path: models/count_vectorizer.joblib
+      hash: md5
+      md5: f796a516197ec5e73bd09af161724405
+      size: 4300
   train:
     cmd: python pipeline/training.py
     deps:
@@ -48,35 +80,3 @@ stages:
       hash: md5
       md5: db06e7537dae3d85e8aef235e4891392
       size: 75
-  preprocess:
-    cmd: python pipeline/data_processing.py
-    deps:
-    - path: data/raw/training_dataset.tsv
-      hash: md5
-      md5: 262a54e658ab7192e7c22a9ef8eb7909
-      size: 61332
-    - path: pipeline/data_processing.py
-      hash: md5
-      md5: c6d0f6b4436a3296210e00455e08c56d
-      size: 1424
-    outs:
-    - path: data/processed/X_test.joblib
-      hash: md5
-      md5: fba28a3d9829a77713b8207241d6b01a
-      size: 224225
-    - path: data/processed/X_train.joblib
-      hash: md5
-      md5: 2a0011aec584dd956a8a67bdac016428
-      size: 896241
-    - path: data/processed/y_test.joblib
-      hash: md5
-      md5: 3e7d8c0a94197e58d76b50b748fadded
-      size: 1825
-    - path: data/processed/y_train.joblib
-      hash: md5
-      md5: bba064b8647da013902eaee5aa63c5dc
-      size: 6625
-    - path: models/count_vectorizer.joblib
-      hash: md5
-      md5: f796a516197ec5e73bd09af161724405
-      size: 4300
