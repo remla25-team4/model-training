@@ -1,6 +1,6 @@
 # model-training
 
-![Pylint Score](https://img.shields.io/badge/pylint-5.12%2F10-red)
+![Pylint Score](https://img.shields.io/badge/pylint-5.19%2F10-red)
 
 ## Overview
 
