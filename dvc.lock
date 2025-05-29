@@ -1,21 +1,65 @@
 schema: '2.0'
 stages:
-  train:
-    cmd: python3 pipeline/training.py
+  preprocess:
+    cmd: python pipeline/data_processing.py
     deps:
-    - path: datasets/training_dataset.tsv
+    - path: data/raw/training_dataset.tsv
       hash: md5
       md5: 262a54e658ab7192e7c22a9ef8eb7909
       size: 61332
-    - path: pipeline/training.py
+    - path: pipeline/data_processing.py
       hash: md5
-      md5: 18365a7782b3388f91ee2f693fe65efb
-      size: 730
+      md5: 719ad567da10068e40243053ee9c5e41
+      size: 1681
     outs:
+    - path: data/processed/X_test.joblib
+      hash: md5
+      md5: fba28a3d9829a77713b8207241d6b01a
+      size: 224225
+    - path: data/processed/X_train.joblib
+      hash: md5
+      md5: 2a0011aec584dd956a8a67bdac016428
+      size: 896241
+    - path: data/processed/y_test.joblib
+      hash: md5
+      md5: 3e7d8c0a94197e58d76b50b748fadded
+      size: 1825
+    - path: data/processed/y_train.joblib
+      hash: md5
+      md5: bba064b8647da013902eaee5aa63c5dc
+      size: 6625
     - path: models/count_vectorizer.joblib
       hash: md5
-      md5: ab156925676a1f27ed11d497e060f24e
+      md5: 92fc995f194a046f3d42519f713ed78b
       size: 4300
+  train:
+    cmd: python pipeline/training.py
+    deps:
+    - path: data/processed/X_test.joblib
+      hash: md5
+      md5: fba28a3d9829a77713b8207241d6b01a
+      size: 224225
+    - path: data/processed/X_train.joblib
+      hash: md5
+      md5: 2a0011aec584dd956a8a67bdac016428
+      size: 896241
+    - path: data/processed/y_test.joblib
+      hash: md5
+      md5: 3e7d8c0a94197e58d76b50b748fadded
+      size: 1825
+    - path: data/processed/y_train.joblib
+      hash: md5
+      md5: bba064b8647da013902eaee5aa63c5dc
+      size: 6625
+    - path: models/count_vectorizer.joblib
+      hash: md5
+      md5: 92fc995f194a046f3d42519f713ed78b
+      size: 4300
+    - path: pipeline/training.py
+      hash: md5
+      md5: c0ef2caf6dc4b51f6dccac5f797a90c2
+      size: 1447
+    outs:
     - path: models/naive_bayes.joblib
       hash: md5
       md5: 5bc9751723941ee33e3e03d9a87017b8
@@ -23,16 +67,24 @@ stages:
   evaluate:
     cmd: python3 pipeline/evaluation.py
     deps:
+    - path: data/processed/X_test.joblib
+      hash: md5
+      md5: fba28a3d9829a77713b8207241d6b01a
+      size: 224225
+    - path: data/processed/y_test.joblib
+      hash: md5
+      md5: 3e7d8c0a94197e58d76b50b748fadded
+      size: 1825
     - path: models/naive_bayes.joblib
       hash: md5
       md5: 5bc9751723941ee33e3e03d9a87017b8
       size: 5255
     - path: pipeline/evaluation.py
       hash: md5
-      md5: c5daf14cbfa34d9e6dfc363ddfe0d485
-      size: 829
+      md5: 0cfef84d33970c4da5dd526eb1abcead
+      size: 2304
     outs:
     - path: metrics/evaluation_metrics.json
       hash: md5
-      md5: db06e7537dae3d85e8aef235e4891392
-      size: 75
+      md5: 8e6d8c049a685d44c2d30f9219e758a9
+      size: 144

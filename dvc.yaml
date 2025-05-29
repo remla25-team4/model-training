@@ -1,15 +1,33 @@
 stages:
-  train:
-    cmd: python3 pipeline/training.py
+  preprocess:
+    cmd: python pipeline/data_processing.py
     deps:
-    - datasets/training_dataset.tsv
-    - pipeline/training.py
+      - data/raw/training_dataset.tsv
+      - pipeline/data_processing.py
     outs:
-    - models/count_vectorizer.joblib
-    - models/naive_bayes.joblib
+      - models/count_vectorizer.joblib
+      - data/processed/X_train.joblib
+      - data/processed/X_test.joblib
+      - data/processed/y_train.joblib
+      - data/processed/y_test.joblib
+
+  train:
+    cmd: python pipeline/training.py
+    deps:
+      - data/processed/X_train.joblib
+      - data/processed/X_test.joblib
+      - data/processed/y_train.joblib
+      - data/processed/y_test.joblib
+      - models/count_vectorizer.joblib
+      - pipeline/training.py
+    outs:
+     - models/naive_bayes.joblib
+
   evaluate:
     cmd: python3 pipeline/evaluation.py
     deps:
+    - data/processed/X_test.joblib
+    - data/processed/y_test.joblib
     - pipeline/evaluation.py
     - models/naive_bayes.joblib
     metrics:
