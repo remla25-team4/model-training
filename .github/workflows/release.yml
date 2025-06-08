@@ -22,6 +22,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install DVC
+        run: pip install dvc[s3]
+
+      - name: Pull data with DVC
+        run: dvc pull
+
       - name: Run preprocessing
         run: python pipeline/data_processing.py
 
