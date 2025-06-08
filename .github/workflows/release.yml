@@ -25,7 +25,14 @@ jobs:
       - name: Install DVC
         run: pip install dvc[s3]
 
-      - name: Pull data with DVC
+      - name: Set up DVC credentials
+        run: echo "${{ secrets.GDRIVE_JSON }}" > gdrive-creds.json
+
+      - name: Configure DVC remote
+        run: |
+          dvc remote modify gdrive_remote gdrive_service_account_json_file_path gdrive-creds.json
+
+      - name: Pull data
         run: dvc pull
 
       - name: Run preprocessing
