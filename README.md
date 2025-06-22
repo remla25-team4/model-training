@@ -55,6 +55,9 @@ model-training/
 │   └── training.py
 ├── pyproject.toml
 ├── README.md
+├── pylint_ml_smells/
+│   ├── __init__.py
+│   └── hyperparameter_checker.py
 ├── references/
 ├── reports/
 │   └── figures/
@@ -170,4 +173,54 @@ pytest tests/
 Output metrics are saved to `metrics/evaluation_metrics.json`
 ---
 
+## Comparing Experiments with DVC
+
+To view and compare metrics across different experiments, run:
+```bash
+dvc exp show
+```
+This will output a table of all experiments and their metrics (accuracy, precision_weighted, recall_weighted, F1).
+
+To create a new experiment:
+```bash
+dvc exp run -n <experiment-name>
+```
+
+To restore a particular experiment to your workspace:
+```bash
+dvc exp apply <experiment-name>
+```
+
+
 Note: make sure your DVC setup works by running `dvc pull` and `dvc repro` without issues.
+
+
+## Code Quality
+
+This project uses four linters and formatters to maintain clean and consistent code:
+
+- Pylint: static analysis and scoring  
+- Flake8: style guide enforcement  
+- Black: automatic code formatting  
+- isort: import sorting
+
+### Run all checks
+
+```bash
+# Run Pylint on source and test code
+pylint pipeline/ tests/
+
+# Run Flake8 to check for style violations
+flake8
+
+# Check formatting (Black) without changing files
+black --check pipeline/ tests/
+
+# Check import sorting without changing files
+isort --check-only pipeline/ tests/
+
+#Check empty instantiations of GaussianNB without any hyperparameters
+pylint --load-plugins=pylint_ml_smells test.py
+
+
+```
