@@ -4,6 +4,7 @@ import pytest
 import nltk
 from nltk.corpus import wordnet
 from nltk.stem.porter import PorterStemmer
+import pandas as pd
 
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -77,3 +78,20 @@ def test_synonyms_replacements(trained_model, cv, text):
             "to\n"
             f"Variant: {mutation} -> {mutation_pred}"
         )
+
+
+def test_model_on_neutral_reviews(trained_model,cv):
+    #evaluate model performance specifically on neutral reviews for a score of 2
+    data = pd.read_csv("data/raw/training_dataset.tsv", sep="\t")
+
+    negative_data = data[data["Liked"] == 0]
+
+    if negative_data.empty:
+        pytest.skip("No negative reviews found in dataset.")
+
+    X = cv.transform(negative_data["Review"]).toarray()
+    y_true = negative_data["Liked"]
+    y_pred = trained_model.predict(X)
+
+    acc = (y_pred == y_true).mean()
+    assert acc > 0.5, f"Model underperforms on negative reviews: acc={acc:.2f}"

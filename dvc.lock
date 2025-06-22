@@ -62,7 +62,7 @@ stages:
     outs:
     - path: models/naive_bayes.joblib
       hash: md5
-      md5: 9e5735934c957c21953494ef8a033c09
+      md5: f91b25e25ebf4e5f140371dcc38adafd
       size: 5255
   evaluate:
     cmd: python3 pipeline/evaluation.py
@@ -77,7 +77,7 @@ stages:
       size: 1825
     - path: models/naive_bayes.joblib
       hash: md5
-      md5: 9e5735934c957c21953494ef8a033c09
+      md5: f91b25e25ebf4e5f140371dcc38adafd
       size: 5255
     - path: pipeline/evaluation.py
       hash: md5
