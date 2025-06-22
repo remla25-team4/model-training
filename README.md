@@ -69,88 +69,105 @@ model-training/
 
 ```
 
+#  Assignment 4: Model Training Setup Guide
+This section walks you through everything you need to set up and run the pipeline for Assignment 4.
+
 ---
 
-## Installation
-It is recommended to use a virtual environment with python 3.10
+##  Step 1: Access to the Google Drive Remote (JSON Credential)
+Our DVC setup uses a Google Cloud service account to access the dataset and models stored on Google Drive.
+You need access to the service account credentials JSON file before running any pipeline code.
+
+There are two ways to do this:
+
+### 1. Request the JSON File
+- Email `cguerreirodoes@tudelft.nl` requesting the credentials file.
+- Once received, save it on your own device as `causal-root-460921-d8-0857aa4be999.json`.
+- Then export the following environment variable in your terminal:
+  ```bash
+  export GOOGLE_APPLICATION_CREDENTIALS=causal-root-460921-d8-0857aa4be999.json
+  ```
+
+### 2. Request Access to the Service Account
+- Email `cguerreirodoes@tudelft.nl` and ask to be granted access using your Google email address.
+- Once access is granted:
+  1. Go to [https://console.cloud.google.com/](https://console.cloud.google.com/)
+  2. Navigate to "IAM & Admin" and then to "Service Accounts"
+  3. Locate the service account `restaurant-sentiment@causal-root-460921-d8.iam.gserviceaccount.com`
+  4. Create and download a new JSON key file
+  5. Save it as `causal-root-460921-d8-0857aa4be999.json` 
+  6. Export the environment variable:
+     ```bash
+     export GOOGLE_APPLICATION_CREDENTIALS=causal-root-460921-d8-0857aa4be999.json
+     ```
+
+---
+
+## Step 2: Set Up Virtual Environment
+A virtual environment keeps dependencies isolated from your global Python setup so:
+
+### Create and activate the virtual environment:
 ```bash
 python3.10 -m venv venv
 source venv/bin/activate
 ```
 
-Install all dependencies using:
-
+### Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-**Important!**
-
-Then, run the following script to make sure needed nltk corpora is installed on your machine:
-
+### Install NLTK corpora:
 ```bash
 python setup_nltk.py
 ```
 
-
 ---
 
-## Usage
 
-### Preprocess the data
+## Step 3: Run the Pipeline
+There are two ways to run the training and evaluation pipeline.
 
-
-### Train the model:
+### 1. Run Stages Manually
 ```bash
-
+python3 pipeline/data_processing.py
 python3 pipeline/training.py
-```
-
-
-
-### Evaluate the model:
-```bash
 python3 pipeline/evaluation.py
 ```
 
----
-
-## Testing
-
-Run tests with:
-```bash
-pytest tests/
-```
-
-
----
-
-## DVC
-You can run the training and evaluation scripts manually, or use DVC to reproduce the full pipeline including versioned data, models, and metrics. 
-
-### Remote Storage
-
-DVC is configured to push data to a Google Drive remote using OAuth through a custom Google Cloud Project
-.  
-If you're contributing to this project, you’ll need to authenticate via the browser when running `dvc pull` or `dvc push` for the first time.
-To reproduce the pipeline and download all required files:
-
-### To clone and setup:
-
-```bash
-git clone git@github.com:remla25-team4/model-training.git
-```
-
-Pull all required files (dataset, models, metrics):
+### 2. Use DVC
+Pull all required files from remote:
 ```bash
 dvc pull
 ```
 
-### To reproduce the full pipeline:
-
+Run all pipeline stages in order:
 ```bash
 dvc repro
 ```
 
- We are currently using a service account on Google Cloud to access our data with dvc. In order to access our service account you will need the json key file.
 ---
+##  Rollback to Past Versions
+To roll back to a specific previous version:
+
+```bash
+# Go to a previous Git commit
+git log --oneline 
+git checkout <commit_hash>
+
+# Restore the respective data and model artifacts
+dvc checkout
+```
+
+
+---
+## Testing
+Run unit tests:
+```bash
+pytest tests/
+```
+
+Output metrics are saved to `metrics/evaluation_metrics.json`
+---
+
+Note: make sure your DVC setup works by running `dvc pull` and `dvc repro` without issues.
