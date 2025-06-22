@@ -80,8 +80,8 @@ def test_synonyms_replacements(trained_model, cv, text):
         )
 
 
-def test_model_on_neutral_reviews(trained_model,cv):
-    #evaluate model performance specifically on neutral reviews for a score of 2
+def test_model_on_negative_reviews(trained_model,cv):
+    """Test model accuracy on negative reviews in the dataset."""
     data = pd.read_csv("data/raw/training_dataset.tsv", sep="\t")
 
     negative_data = data[data["Liked"] == 0]
@@ -89,9 +89,9 @@ def test_model_on_neutral_reviews(trained_model,cv):
     if negative_data.empty:
         pytest.skip("No negative reviews found in dataset.")
 
-    X = cv.transform(negative_data["Review"]).toarray()
+    x_data = cv.transform(negative_data["Review"]).toarray()
     y_true = negative_data["Liked"]
-    y_pred = trained_model.predict(X)
+    y_pred = trained_model.predict(x_data)
 
     acc = (y_pred == y_true).mean()
     assert acc > 0.5, f"Model underperforms on negative reviews: acc={acc:.2f}"
