@@ -47,7 +47,13 @@ if __name__ == "__main__":
         sys.exit(RETURN_CODE)
 
     except (subprocess.SubprocessError, OSError) as e:
-        print("ERROR in generate_scores.py:", e)
-        import traceback
-        traceback.print_exc()
+        error_msg = f"ERROR in generate_scores.py: {e}"
+        print(error_msg)
+        traceback_str = traceback.format_exc()
+
+        # Save error to test_output.txt so GitHub can upload it
+        with open("test_output.txt", "w", encoding="utf-8") as test_output:
+            test_output.write(error_msg + "\n")
+            test_output.write(traceback_str)
+
         sys.exit(1)
