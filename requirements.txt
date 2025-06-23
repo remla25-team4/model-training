@@ -20,5 +20,4 @@ pyarrow>=20.0.0
 dvc
 dvc-gdrive
 pylint>=2.17.0
-
-
+psutil>=5.8.0

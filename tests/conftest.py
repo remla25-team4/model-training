@@ -89,3 +89,8 @@ def stemming_data():
             "run"
         ]
     })
+
+@pytest.fixture
+def sample_input():
+    X = joblib.load("data/processed/X_train.joblib")
+    return X[:100] 
