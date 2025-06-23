@@ -46,10 +46,8 @@ if __name__ == "__main__":
 
         sys.exit(RETURN_CODE)
 
-    except Exception as e:
+    except (FileNotFoundError, PermissionError, ValueError, IndexError) as e:
         print("ERROR in generate_scores.py:", e)
         import traceback
         traceback.print_exc()
         sys.exit(1)
-
-

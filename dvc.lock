@@ -9,8 +9,8 @@ stages:
       size: 61332
     - path: pipeline/data_processing.py
       hash: md5
-      md5: 719ad567da10068e40243053ee9c5e41
-      size: 1681
+      md5: eeddff6788a3c83b59c4603c141ae9ec
+      size: 1728
     outs:
     - path: data/processed/X_test.joblib
       hash: md5
@@ -30,8 +30,8 @@ stages:
       size: 6625
     - path: models/count_vectorizer.joblib
       hash: md5
-      md5: 17a61eaaaf6d60bad0e119749f5760e1
-      size: 4301
+      md5: dd1b798615e551bd9341e090c0815b49
+      size: 3741
   train:
     cmd: python pipeline/training.py
     deps:
@@ -53,12 +53,12 @@ stages:
       size: 6625
     - path: models/count_vectorizer.joblib
       hash: md5
-      md5: 17a61eaaaf6d60bad0e119749f5760e1
-      size: 4301
+      md5: dd1b798615e551bd9341e090c0815b49
+      size: 3741
     - path: pipeline/training.py
       hash: md5
-      md5: 6d932f11c650dd0bf52431328c1e37ba
-      size: 1447
+      md5: 64f390bf68c9a8dfaf61f37190f3917b
+      size: 1494
     outs:
     - path: models/naive_bayes.joblib
       hash: md5

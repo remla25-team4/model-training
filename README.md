@@ -215,13 +215,19 @@ This project uses four linters and formatters to maintain clean and consistent c
 pylint pipeline/ tests/
 
 # Run Flake8 to check for style violations
-flake8
+flake8 pipeline/ tests/
 
 # Check formatting (Black) without changing files
 black --check pipeline/ tests/
 
+# Check formatting (Black) and automatically fix issues
+black pipeline/ tests/
+
 # Check import sorting without changing files
 isort --check-only pipeline/ tests/
+
+# Check import sorting and apply changes automatically
+isort pipeline/ tests/
 
 #Check empty instantiations of GaussianNB without any hyperparameters
 pylint --load-plugins=pylint_ml_smells pipeline/training.py
