@@ -47,6 +47,9 @@ def replace_with_synonyms(text):
     "Bad vibes, great food",
     "Prices were cheap"
 ])
+
+@pytest.mark.model_test
+@pytest.mark.model_7
 def test_synonyms_replacements(trained_model, cv, text):
     """test that replacing words with its synonyms will not flip the prediction"""
     # Load model and CV
@@ -79,7 +82,8 @@ def test_synonyms_replacements(trained_model, cv, text):
             f"Variant: {mutation} -> {mutation_pred}"
         )
 
-
+@pytest.mark.model_test
+@pytest.mark.model_6
 def test_model_on_negative_reviews(trained_model,cv):
     """Test model accuracy on negative reviews in the dataset."""
     data = pd.read_csv("data/raw/training_dataset.tsv", sep="\t")

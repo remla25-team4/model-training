@@ -2,14 +2,17 @@
 
 import os
 import psutil
+import pytest
 
 def get_memory_usage():
     """Return current process memory usage in MB"""
     process = psutil.Process(os.getpid())
     return process.memory_info().rss / 1024 / 1024
 
+@pytest.mark.monitoring_test
+@pytest.mark.monitor_6
 def test_model_memory_usage(trained_model, sample_input):
-    """Check that model.predict() does not exceed memory threshold"""
+    """Check that model.predict() does not exceed memory threshold. Monitor 6"""
     model = trained_model
     sample_data = sample_input  # Define a fixture from x_train (check conftest.py)
 

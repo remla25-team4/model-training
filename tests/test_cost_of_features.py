@@ -1,5 +1,7 @@
 """Evaluate how varying the number of features affects model accuracy (cost of features)."""
 
+
+import pytest
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
@@ -7,8 +9,9 @@ from sklearn.metrics import accuracy_score
 
 from pipeline.training import train_model
 
+
 def evaluate_feature_limit_accuracy(texts, labels, feature_limits):
-    """Determining accuracy vales for each vector"""
+    """Determining accuracy vales for each vector. """
     accuracies = []
     for max_feat in feature_limits:
         vectorizer = CountVectorizer(max_features=max_feat)
@@ -22,9 +25,11 @@ def evaluate_feature_limit_accuracy(texts, labels, feature_limits):
         accuracies.append(accuracy)
     return accuracies
 
-
+@pytest.mark.model_test
+@pytest.mark.model_5
 def test_cost_of_features_ratio():
-    """Check that accuracy does not decrease significantly as feature count increases."""
+    """Check that accuracy does not decrease significantly as feature count increases.  
+       Model 5"""
     df = pd.read_csv("data/raw/training_dataset.tsv", sep="\t")
     texts = df["Review"]
     labels = df["Liked"]

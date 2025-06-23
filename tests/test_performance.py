@@ -1,7 +1,10 @@
 """Performance test for model inference time"""
 
 import time
+import pytest
 
+@pytest.mark.monitoring_test
+@pytest.mark.monitor_6
 def test_model_inference_time(trained_model, sample_input):
     """Check that model.predict() runs under acceptable time threshold"""
     model = trained_model

@@ -1,12 +1,15 @@
 """Tests for ML infrastructure via reproducibility"""
 
+import pytest
 import numpy as np
 from pipeline.training import train_model, load_processed_training_data
 
+@pytest.mark.infrastructure_test
+@pytest.mark.infra_1
 def test_training_reproducibility():
     """
     Test that training the model twice on the same data yields identical predictions.
-    This checks for reproducibility (Infra1 from ML Test Score Guide).
+    This checks for reproducibility (Infra 1).
     """
     x_data, y_data = load_processed_training_data()
 
