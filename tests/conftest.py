@@ -1,5 +1,6 @@
 """config file for sharing common fixtures between test files"""
 
+import os
 import pytest
 import joblib
 import pandas as pd
@@ -25,6 +26,9 @@ def off_data():
 def on_data():
     """Loads the online dataset for monitoring."""
     # Note: Ensure the path "datasets/online_dataset.tsv" is correct.
+    if not os.path.exists("data/raw/online_dataset.tsv"):
+        pytest.skip("Online data not available – skipping all tests depending on it.")
+
     return pd.read_csv("data/raw/online_dataset.tsv", delimiter='\t')
 
 @pytest.fixture
