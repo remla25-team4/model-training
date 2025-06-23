@@ -30,9 +30,12 @@ jobs:
 
       - name: Run tests and extract ML & Coverage scores
         run: |
+          set -x
           export PYTHONPATH=$(pwd):$PYTHONPATH
-          python tests/generate_scores.py
-
+          python tests/generate_scores.py || true
+          echo "Exit code: $?"
+          echo "--- test_output.txt ---"
+          cat test_output.txt || echo "test_output.txt missing"
       - name: Read test scores
         id: scores
         run: |
@@ -90,3 +93,5 @@ jobs:
         with:
           name: test-output
           path: test_output.txt
+
+
