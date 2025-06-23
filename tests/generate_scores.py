@@ -35,11 +35,21 @@ def extract_scores():
     return ml_score, coverage_score
 
 if __name__ == "__main__":
-    RETURN_CODE = run_tests()
-    ML_SCORE, COVERAGE_SCORE = extract_scores()
+    try:
+        print("Running tests with coverage...\n")
+        RETURN_CODE = run_tests()
+        ML_SCORE, COVERAGE_SCORE = extract_scores()
 
-    with open("test_scores.txt", "w", encoding="utf-8") as score_file:
-        score_file.write(f"ML_SCORE={ML_SCORE}\n")
-        score_file.write(f"COVERAGE_SCORE={COVERAGE_SCORE}\n")
+        with open("test_scores.txt", "w", encoding="utf-8") as score_file:
+            score_file.write(f"ML_SCORE={ML_SCORE}\n")
+            score_file.write(f"COVERAGE_SCORE={COVERAGE_SCORE}\n")
 
-    sys.exit(RETURN_CODE)
+        sys.exit(RETURN_CODE)
+
+    except Exception as e:
+        print("ERROR in generate_scores.py:", e)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
