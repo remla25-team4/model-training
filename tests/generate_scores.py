@@ -10,7 +10,7 @@ def run_tests():
     """Run pytest with coverage and save output to file."""
     print("Running tests with coverage...\n")
     result = subprocess.run(
-        ["coverage", "run", "-m", "pytest", "-v", "tests"],
+        ["coverage", "run", "--source=pipeline", "-m", "pytest", "-v", "tests"],
         capture_output=True,
         text=True,
         check=False
