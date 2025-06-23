@@ -22,7 +22,7 @@ limit-inference-results=100
 
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
-load-plugins=
+load-plugins=pylint_ml_smells
 
 # Minimum Python version to use for version dependent checks. Will default to
 # the version used to run pylint.
@@ -32,8 +32,6 @@ py-version=3.10
 # user-friendly hints instead of false-positive error messages.
 suggestion-mode=yes
 
-#CUstom pylint rule for lack of hyperparemetization in models
-load-plugins=pylint_ml_smells
 
 [BASIC]
 

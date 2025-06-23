@@ -220,7 +220,7 @@ black --check pipeline/ tests/
 isort --check-only pipeline/ tests/
 
 #Check empty instantiations of GaussianNB without any hyperparameters
-pylint --load-plugins=pylint_ml_smells test.py
+pylint --load-plugins=pylint_ml_smells pipeline/training.py
 
 
 ```

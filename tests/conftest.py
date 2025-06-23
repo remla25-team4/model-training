@@ -92,5 +92,6 @@ def stemming_data():
 
 @pytest.fixture
 def sample_input():
-    X = joblib.load("data/processed/X_train.joblib")
-    return X[:100] 
+    """Returns a sample of the training data (first 100 rows)."""
+    x_sample = joblib.load("data/processed/X_train.joblib")
+    return x_sample[:100]
