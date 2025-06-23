@@ -47,6 +47,8 @@ jobs:
         run: |
           ML_SCORE="${{ steps.scores.outputs.ml_score }}"
           COV_SCORE="${{ steps.scores.outputs.coverage_score }}"
+          echo "DEBUG: ML_SCORE=$ML_SCORE"
+          echo "DEBUG: COV_SCORE=$COV_SCORE"
 
           # Determine ML score badge color
           if (( $(echo "$ML_SCORE >= 0.9" | bc -l) )); then
