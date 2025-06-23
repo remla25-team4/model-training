@@ -91,6 +91,7 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git diff --quiet README.md || (git add README.md && git commit -m "Update ML and Coverage badges [skip ci]" && git push)
       - name: Upload test output
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-output

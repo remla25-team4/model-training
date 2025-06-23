@@ -3,6 +3,8 @@
 import re
 import subprocess
 import sys
+import traceback
+
 
 def run_tests():
     """Run pytest with coverage and save output to file."""
@@ -14,16 +16,16 @@ def run_tests():
         check=False
     )
 
-    with open("test_output.txt", "w", encoding="utf-8") as test_output:
-        test_output.write(result.stdout)
-        test_output.write(result.stderr)
+    with open("test_output.txt", "w", encoding="utf-8") as output_file:
+        output_file.write(result.stdout)
+        output_file.write(result.stderr)
 
     return result.returncode
 
 def extract_scores():
     """Extract ML test score and coverage percentage from output."""
-    with open("test_output.txt", encoding="utf-8") as test_output:
-        output = test_output.read()
+    with open("test_output.txt", encoding="utf-8") as output_file:
+        output = output_file.read()
 
     ml_score_match = re.search(r"ML Test Score:\s*([0-9.]+)", output)
     ml_score = ml_score_match.group(1) if ml_score_match else "0.0"
@@ -46,8 +48,13 @@ if __name__ == "__main__":
 
         sys.exit(RETURN_CODE)
 
-    except (FileNotFoundError, PermissionError, ValueError, IndexError) as e:
-        print("ERROR in generate_scores.py:", e)
-        import traceback
-        traceback.print_exc()
+    except (subprocess.SubprocessError, OSError) as e:
+        ERROR_MSG = f"ERROR in generate_scores.py: {e}"
+        print(ERROR_MSG)
+        TRACEBACK_STR = traceback.format_exc()
+
+        # Save error to test_output.txt so GitHub can upload it
+        with open("test_output.txt", "w", encoding="utf-8") as test_output:
+            test_output.write(ERROR_MSG + "\n")
+            test_output.write(TRACEBACK_STR)
         sys.exit(1)
