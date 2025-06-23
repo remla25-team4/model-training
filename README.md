@@ -6,7 +6,7 @@
 
 This project closely follows the [Cookiecutter template](https://github.com/drivendataorg/cookiecutter-data-science), a template that incorporates best practices for data science.
 
-![Pylint Score](https://img.shields.io/badge/pylint-9.89%2F10-brightgreen)
+![Pylint Score](https://img.shields.io/badge/pylint-10.00%2F10-brightgreen)
 
 ## Overview
 
