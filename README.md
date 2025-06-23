@@ -8,8 +8,8 @@ This project closely follows the [Cookiecutter template](https://github.com/driv
 
 
 ![Pylint Score](https://img.shields.io/badge/pylint-10.00%2F10-brightgreen)
-![ml_score](https://img.shields.io/badge/ML_Score-0.85-brightgreen)
-![coverage](https://img.shields.io/badge/Coverage-85%25-yellow)
+![ml_score](https://img.shields.io/badge/ML_Score-0.14-red)
+![coverage](https://img.shields.io/badge/Coverage-50%25-red)
 
 
 ## Overview
