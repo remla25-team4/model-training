@@ -32,7 +32,7 @@ jobs:
         run: |
           set -x
           export PYTHONPATH=$(pwd):$PYTHONPATH
-          python tests/generate_scores.py || true
+          python tests/generate_scores.py
           echo "Exit code: $?"
           echo "--- test_output.txt ---"
           cat test_output.txt || echo "test_output.txt missing"
