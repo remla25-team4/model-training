@@ -1,0 +1,92 @@
+name: ML Coverage & Test Score
+
+on:
+  push:
+    branches:
+      - "**"
+    paths-ignore:
+      - README.md
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install coverage pytest
+
+      - name: Run tests and extract ML & Coverage scores
+        run: |
+          export PYTHONPATH=$(pwd):$PYTHONPATH
+          python tests/generate_scores.py
+
+      - name: Read test scores
+        id: scores
+        run: |
+          source test_scores.txt
+          echo "ml_score=$ML_SCORE" >> $GITHUB_OUTPUT
+          echo "coverage_score=$COVERAGE_SCORE" >> $GITHUB_OUTPUT
+
+      - name: Update README with badges
+        run: |
+          ML_SCORE="${{ steps.scores.outputs.ml_score }}"
+          COV_SCORE="${{ steps.scores.outputs.coverage_score }}"
+
+          # Determine ML score badge color
+          if (( $(echo "$ML_SCORE >= 0.9" | bc -l) )); then
+            ML_COLOR="brightgreen"
+          elif (( $(echo "$ML_SCORE >= 0.75" | bc -l) )); then
+            ML_COLOR="yellow"
+          else
+            ML_COLOR="red"
+          fi
+
+          # Determine coverage badge color
+          if (( $COV_SCORE >= 90 )); then
+            COV_COLOR="brightgreen"
+          elif (( $COV_SCORE >= 75 )); then
+            COV_COLOR="yellow"
+          else
+            COV_COLOR="red"
+          fi
+
+          ML_BADGE="![ml_score](https://img.shields.io/badge/ML_Score-${ML_SCORE}-${ML_COLOR})"
+          COV_BADGE="![coverage](https://img.shields.io/badge/Coverage-${COV_SCORE}%25-${COV_COLOR})"
+
+          # Replace or insert ML badge
+          if grep -q "!\[ml_score\]" README.md; then
+            sed -i "s|!\[ml_score\].*|$ML_BADGE|" README.md
+          else
+            echo "$ML_BADGE" >> README.md
+          fi
+
+          # Replace or insert coverage badge
+          if grep -q "!\[coverage\]" README.md; then
+            sed -i "s|!\[coverage\].*|$COV_BADGE|" README.md
+          else
+            echo "$COV_BADGE" >> README.md
+          fi
+
+      - name: Commit and push README changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git diff --quiet README.md || (git add README.md && git commit -m "Update ML and Coverage badges [skip ci]" && git push)
+      - name: Upload test output
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output
+          path: test_output.txt
