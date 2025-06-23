@@ -3,6 +3,10 @@
 #!data/**/*.gitkeep
 !data/raw/training_dataset.tsv.dvc
 
+#Artifacts
+test_output.txt
+test_scores.txt
+
 # Mac OS-specific storage files
 .DS_Store
 
