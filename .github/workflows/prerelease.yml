@@ -1,0 +1,106 @@
+name: Pre-release Model
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'               
+
+jobs:
+  build-and-prerelease:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write     
+      packages: write    
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine trigger type
+        id: trigger
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "triggered_by=tag" >> $GITHUB_OUTPUT
+          else
+            echo "triggered_by=branch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get latest stable tag
+        if: steps.trigger.outputs.triggered_by == 'branch'
+        run: |
+          LATEST=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "LATEST_TAG=$LATEST" >> $GITHUB_ENV
+
+      - name: Get pushed tag
+        if: steps.trigger.outputs.triggered_by == 'tag'
+        run: |
+          echo "LATEST_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Calculate pre-release version
+        run: |
+          BASE=${LATEST_TAG#v}
+          BASE=${BASE%%-pre*}
+          IFS=. read MAJOR MINOR PATCH <<<"$BASE"
+          PATCH=$((PATCH + 1))
+          TS=$(date +%Y%m%d.%H%M%S)
+          PREVER="$MAJOR.$MINOR.$PATCH-pre.$TS"
+          echo "version=$PREVER"        >> $GITHUB_ENV
+          echo "version_major=$MAJOR"   >> $GITHUB_ENV
+          echo "version_minor=$MINOR"   >> $GITHUB_ENV
+          echo "version_patch=$PATCH"   >> $GITHUB_ENV
+
+      - name: Tag pre-release commit
+        if: steps.trigger.outputs.triggered_by == 'branch'
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          SHA=$(git rev-parse origin/main)
+          git tag "v${{ env.version }}" $SHA
+          git push origin "v${{ env.version }}"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install DVC
+        run: pip install "dvc[s3]"
+
+      - name: Decode and write service account key
+        run: |
+          echo "${{ secrets.GDRIVE_JSON }}" | base64 -d > gdrive-creds.json
+
+      - name: Configure DVC remote
+        run: |
+          dvc remote modify gdrive_remote gdrive_service_account_json_file_path gdrive-creds.json
+
+      - name: Pull data
+        run: dvc pull
+
+      - name: Run preprocessing
+        run: python pipeline/data_processing.py
+
+      - name: Train model
+        run: python pipeline/training.py
+
+      - name: Upload Pre-release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ env.version }}"
+          prerelease: true
+          files: |
+            models/count_vectorizer.joblib
+            models/naive_bayes.joblib
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
