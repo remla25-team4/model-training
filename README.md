@@ -29,50 +29,56 @@ The trained model and vectorizer are saved as `.joblib` files and used by the `m
 
 ```
 model-training/
-├── .dvc/
-├── .github/
-├── data/
-│   ├── processed/
-│   │   ├── .gitignore
-│   │   ├── X_test.joblib
-│   │   ├── X_train.joblib
-│   │   ├── y_test.joblib
-│   │   └── y_train.joblib
-│   ├── raw/
-│   │   ├── .gitignore
-│   │   ├── training_dataset.tsv
-│   │   └── training_dataset.tsv.dvc
-│   └── .gitkeep
-├── docs/
+├── data
+├── docs
+├── .dvc
+├── .dvcignore
+├── dvc.lock
+├── dvc.yaml
+├── .github
+│   └── workflows
+│       ├── coverage_test_score.yml
+│       ├── prerelease.yml
+│       ├── pylint.yml
+│       └── release.yml
 ├── LICENSE
 ├── Makefile
-├── metrics/
-│   └── evaluation_metrics.json
-├── models/
-│   ├── count_vectorizer.joblib
-│   └── naive_bayes.joblib
-├── notebooks/
-├── pipeline/
-│   ├── data_processing.py
-│   ├── evaluation.py
-│   ├── __init__.py
-│   └── training.py
+├── metrics
+│   └── evaluation_metrics.json
+├── models
+├── notebooks
+├── pipeline
+│   ├── data_processing.py
+│   ├── evaluation.py
+│   ├── __init__.py
+│   └── training.py
+├── pylint_ml_smells
+│   ├── hyperparameter_checker.py
+│   ├── __init__.py
+│   └── zero_division_checker.py
+├── .pylintrc
 ├── pyproject.toml
+├── pytest.ini
 ├── README.md
-├── pylint_ml_smells/
-│   ├── __init__.py
-│   └── hyperparameter_checker.py
-├── references/
-├── reports/
-│   └── figures/
+├── references
+├── reports
 ├── requirements.txt
 ├── setup.cfg
-└── tests/
-    ├── test_model_development.py
-    ├── test_monitoring.py
-    ├── test_preprocessing.py
-    └── test_robustness.py
-    
+├── setup_nltk.py
+├── tests
+│   ├── conftest.py
+│   ├── generate_scores.py
+│   ├── test_cost_of_features.py
+│   ├── test_infrastructure.py
+│   ├── test_memory.py
+│   ├── test_metamorphic.py
+│   ├── .test_metamorphic.py.swp
+│   ├── test_model_development.py
+│   ├── test_monitoring.py
+│   ├── test_performance.py
+│   ├── test_preprocessing.py
+│   └── test_robustness.py
+└──
 
 ```
 
@@ -107,6 +113,20 @@ There are two ways to do this:
      ```bash
      export GOOGLE_APPLICATION_CREDENTIALS=causal-root-460921-d8-0857aa4be999.json
      ```
+### 3.  Use the Pre-Included Credential (Grading Only)
+**For instructors and graders only**  
+To simplify review and grading for the Release Engineering for Machine Learning Applications course, a working credential file is already included in the project submission `.zip`.
+
+You can use it without requesting access:
+
+1. Locate the file in the submission root:
+   ```
+   causal-root-460921-d8-0857aa4be999.json
+   ```
+2. Then run:
+   ```bash
+   export GOOGLE_APPLICATION_CREDENTIALS=causal-root-460921-d8-0857aa4be999.json
+   ```
 
 ---
 
@@ -152,6 +172,10 @@ Run all pipeline stages in order:
 ```bash
 dvc repro
 ```
+View the tracked metrics (accuracy, f1_score_weighted, precision_weighted, recall_weighted)
+```bash
+dvc metrics show
+```
 
 ---
 ##  Rollback to Past Versions
@@ -164,19 +188,69 @@ git checkout <commit_hash>
 
 # Restore the respective data and model artifacts
 dvc checkout
-```
 
+```
 
 ---
 ## Testing
-Run unit tests:
+Run all tests:
 ```bash
-pytest tests/
+pytest -s tests/
 ```
+This will run all test categories and display whether each one passes its subtests. The final score summarizes test adequacy. Output metrics are saved to `metrics/evaluation_metrics.json`
+This project implements structured machine learning testing aligned with the ML Test Score framework from [Google’s ML Test Score rubric (2022)](https://storage.googleapis.com/gweb-research2023-media/pubtools/4156.pdf). The ML Test Score (test adequacy score) follows the suggested formula from said rubric.
 
-Output metrics are saved to `metrics/evaluation_metrics.json`
 ---
 
+## Test Coverage Report
+
+To manually measure code coverage:
+
+1. Install coverage:
+
+```bash
+pip install coverage
+```
+
+2. Run tests with coverage:
+
+```bash
+coverage run --source=pipeline -m pytest -v tests
+coverage report
+```
+
+3. Optionally, generate an HTML report for easier reading:
+
+```bash
+coverage html
+```
+
+Then open `htmlcov/index.html` in your browser to explore detailed coverage.
+
+---
+
+## Test Category Overview
+
+| Test Category         | Test File                    |
+|-----------------------|------------------------------|
+| Feature & Data        | `test_preprocessing.py`      |
+| Model Development     | `test_model_development.py`  |
+| ML Infrastructure     | `test_infrastructure.py`     |
+| Monitoring            | `test_monitoring.py`         |
+| Robustness            | `test_robustness.py`         |
+| Memory Usage          | `test_memory.py`             |
+| Performance           | `test_performance.py`        |
+| Cost of Features      | `test_cost_of_features.py`   |
+| Metamorphic Testing   | `test_metamorphic.py`        |
+
+Each category is designed to cover one dimension of ML production readiness. The tests include:
+
+- Functional validation
+- Non-determinism checks using data slices
+- Non-functional metrics like memory, speed, and cost
+- Metamorphic consistency and auto-repair logic
+
+---
 ## Comparing Experiments with DVC
 
 To view and compare metrics across different experiments, run:
@@ -229,7 +303,7 @@ isort --check-only pipeline/ tests/
 # Check import sorting and apply changes automatically
 isort pipeline/ tests/
 
-#Check empty instantiations of GaussianNB without any hyperparameters
+#Check empty instantiations of GaussianNB without any hyperparameters and to check for non_zero_division argument in classification_report
 pylint --load-plugins=pylint_ml_smells pipeline/training.py
 
 
