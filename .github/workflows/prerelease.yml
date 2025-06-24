@@ -5,14 +5,14 @@ on:
     branches:
       - main
     tags:
-      - '*'               
+      - '*'
 
 jobs:
   build-and-prerelease:
     runs-on: ubuntu-latest
     permissions:
-      contents: write     
-      packages: write    
+      contents: write
+      packages: write
       id-token: write
 
     steps:
@@ -75,17 +75,18 @@ jobs:
           pip install -r requirements.txt
 
       - name: Install DVC
-        run: pip install "dvc[s3]"
+        run: pip install "dvc[gdrive]"
 
-      - name: Decode and write service account key
-        run: |
-          echo "${{ secrets.GDRIVE_JSON }}" | base64 -d > gdrive-creds.json
+      - name: Create service account file from secret
+        run: echo "${{ secrets.GDRIVE_SA_JSON }}" > gdrive_sa_credentials.json
 
       - name: Configure DVC remote
         run: |
-          dvc remote modify gdrive_remote gdrive_service_account_json_file_path gdrive-creds.json
+          dvc remote modify gdrive_remote gdrive_service_account_json_file_path gdrive_sa_credentials.json
 
       - name: Pull data
+        env:
+          GDRIVE_ACKNOWLEDGE_ABUSE: "true"
         run: dvc pull
 
       - name: Run preprocessing
