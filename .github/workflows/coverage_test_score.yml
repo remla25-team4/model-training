@@ -28,6 +28,24 @@ jobs:
           pip install -r requirements.txt
           pip install coverage pytest
 
+      - name: Install DVC
+        run: pip install "dvc[gdrive]"
+
+      - name: Configure DVC remote
+        run: |
+          dvc remote modify gdrive_remote gdrive_service_account_json_file_path .dvc/gdrive_sa_credentials.json
+
+      - name: Create service account file from secret
+        env:
+          GDRIVE_CREDS_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+        run: |
+          python -c "import os; f = open('.dvc/gdrive_sa_credentials.json', 'w'); f.write(os.environ['GDRIVE_CREDS_JSON']); f.close()"
+
+      - name: Pull data
+        env:
+          GDRIVE_ACKNOWLEDGE_ABUSE: "true"
+        run: dvc pull
+
       - name: Run tests and extract ML & Coverage scores
         run: |
           set -x

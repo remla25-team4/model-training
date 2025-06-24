@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - '*'
 
 jobs:
   build-and-prerelease:
@@ -86,11 +84,6 @@ jobs:
           GDRIVE_CREDS_JSON: ${{ secrets.GDRIVE_SA_JSON }}
         run: |
           python -c "import os; f = open('.dvc/gdrive_sa_credentials.json', 'w'); f.write(os.environ['GDRIVE_CREDS_JSON']); f.close()"
-
-      - name: Pull data
-        env:
-          GDRIVE_ACKNOWLEDGE_ABUSE: "true"
-        run: dvc pull
 
       - name: Pull data
         env:
