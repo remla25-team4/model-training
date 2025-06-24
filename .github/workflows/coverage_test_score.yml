@@ -28,13 +28,6 @@ jobs:
           pip install -r requirements.txt
           pip install coverage pytest
 
-      - name: Install DVC
-        run: pip install dvc[s3]
-
-      - name: Pull data and models with DVC
-        run: |
-          dvc pull -f
-
       - name: Run tests and extract ML & Coverage scores
         run: |
           set -x
