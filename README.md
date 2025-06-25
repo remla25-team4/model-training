@@ -298,7 +298,7 @@ isort --check-only pipeline/ tests/
 isort pipeline/ tests/
 
 #Check empty instantiations of GaussianNB without any hyperparameters and to check for non_zero_division argument in classification_report
-pylint --load-plugins=pylint_ml_smells pipeline/training.py
+pylint --load-plugins=pylint_ml_smells pipeline/
 
 
 ```
