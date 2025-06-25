@@ -1,8 +1,6 @@
 """config file for sharing common fixtures between test files"""
 
 import os
-from unittest import case
-
 import pytest
 import joblib
 import pandas as pd
@@ -166,16 +164,19 @@ def interpret_score(score):
 
         # Then handle the ranges (guards)
         case score if 1 <= score <= 2:
-            return "Not totally untested, but it is worth considering the possibility of serious holes in reliability."
+            return ("Not totally untested, but it is "
+                    "worth considering the possibility "
+                    "of serious holes in reliability.")
         case score if 3 <= score <= 4:
-            return "There's basic productionization, but additional investment may be needed."
+            return ("There's basic productionization, "
+                    "but additional investment may be needed.")
         case score if 5 <= score <= 6:
-            return "Reasonably tested, but it's possible that more of those tests and procedures may be automated."
+            return ("Reasonably tested, but it's "
+                    "possible that more of those "
+                    "tests and procedures may be automated.")
         case score if 7 <= score <= 10:
-            return "Strong levels of automated testing and monitoring, appropriate for critical systems."
+            return ("Strong levels of automated testing "
+                    "and monitoring, appropriate for critical systems.")
         case score if score > 10:  # A check for 12+ can also be used
-            return "Exceptional levels of automated testing and monitoring."
-
-        # Default case for any other values
-        case _:
-            return f"Unexpected score: {score}"
+            return ("Exceptional levels of automated "
+                    "testing and monitoring.")
