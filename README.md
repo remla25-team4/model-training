@@ -90,43 +90,37 @@ This section walks you through everything you need to set up and run the pipelin
 ##  Step 1: Access to the Google Drive Remote (JSON Credential)
 Our DVC setup uses a Google Cloud service account to access the dataset and models stored on Google Drive.
 You need access to the service account credentials JSON file before running any pipeline code.
+The Google Drive remote is fully configured via your DVC config file—no manual OAuth or env-vars needed.
 
-There are two ways to do this:
+There are three ways to do this:
 
 ### 1. Request the JSON File
-- Email `cguerreirodoes@tudelft.nl` requesting the credentials file.
-- Once received, save it on your own device as `causal-root-460921-d8-0857aa4be999.json`.
-- Then export the following environment variable in your terminal:
-  ```bash
-  export GOOGLE_APPLICATION_CREDENTIALS=causal-root-460921-d8-0857aa4be999.json
-  ```
+- Email `chenyl0342@gmail.com` requesting the credentials file.
+- Once received, save it on your own device: `gdrive_sa_credentials.json`.
 
 ### 2. Request Access to the Service Account
-- Email `cguerreirodoes@tudelft.nl` and ask to be granted access using your Google email address.
+- Email `chenyl0342@gmail.com` and ask to be granted access using your Google email address.
 - Once access is granted:
   1. Go to [https://console.cloud.google.com/](https://console.cloud.google.com/)
-  2. Navigate to "IAM & Admin" and then to "Service Accounts"
-  3. Locate the service account `restaurant-sentiment@causal-root-460921-d8.iam.gserviceaccount.com`
-  4. Create and download a new JSON key file
-  5. Save it as `causal-root-460921-d8-0857aa4be999.json` 
-  6. Export the environment variable:
-     ```bash
-     export GOOGLE_APPLICATION_CREDENTIALS=causal-root-460921-d8-0857aa4be999.json
-     ```
+  2. Click the project selector (top bar) and pick the project with ID `causal-root-460921-d8`.
+  3. Navigate to "IAM & Admin" and then to "Service Accounts"
+  4. Locate the service account `restaurant-sentiment@causal-root-460921-d8.iam.gserviceaccount.com`
+  5. Click the service-account entry
+  6. Switch to the "Keys" tab
+  7. Click "Add Key" → "Create new key" → select "JSON" → "Create"  (The JSON file will download automatically)
+  8. Rename the downloaded file to `gdrive_sa_credentials.json`  
+
 ### 3.  Use the Pre-Included Credential (Grading Only)
 **For instructors and graders only**  
 To simplify review and grading for the Release Engineering for Machine Learning Applications course, a working credential file is already included in the project submission `.zip`.
 
 You can use it without requesting access:
 
-1. Locate the file in the submission root:
+1. Locate the file in the submission root and save it on your own device:
    ```
-   causal-root-460921-d8-0857aa4be999.json
+   gdrive_sa_credentials.json
    ```
-2. Then run:
-   ```bash
-   export GOOGLE_APPLICATION_CREDENTIALS=causal-root-460921-d8-0857aa4be999.json
-   ```
+
 
 ---
 
