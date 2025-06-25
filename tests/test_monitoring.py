@@ -5,7 +5,8 @@ import time
 from datetime import datetime, timedelta
 import pytest
 
-
+@pytest.mark.monitoring_test
+@pytest.mark.monitor_2
 def test_serving_feature_distribution_stability(
     off_data, on_data, max_allowed_drift=0.25
 ):
@@ -31,6 +32,8 @@ def test_serving_feature_distribution_stability(
     )
 
 
+@pytest.mark.monitoring_test
+@pytest.mark.monitor_4
 def test_model_staleness(model_path="models/naive_bayes.joblib", max_days_old=30):
     """
     Monitor 4: Models are not too stale.
@@ -48,6 +51,8 @@ def test_model_staleness(model_path="models/naive_bayes.joblib", max_days_old=30
         f"Age: {model_age.days} days. Consider retraining or redeploying."
     )
 
+@pytest.mark.monitoring_test
+@pytest.mark.monitor_6
 def test_prediction_latency(
     cv, trained_model, on_data, max_latency_per_100_samples=10
 ):

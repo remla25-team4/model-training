@@ -2,13 +2,16 @@
 
 import pandas as pd
 import numpy as np
+import pytest
 from sklearn.metrics import log_loss, accuracy_score
 
 
+@pytest.mark.model_test
+@pytest.mark.model_2
 def test_offline_online_performance_consistency(cv, trained_model, off_data, on_data):
     """
     Ensure offline proxy performance (accuracy & log-loss)
-    is close to online performance on a live holdout set.
+    is close to online performance on a live holdout set. Model 2
     """
     # Offline metrics
     x_off = cv.transform(off_data["Review"]).toarray()
@@ -36,10 +39,12 @@ def test_offline_online_performance_consistency(cv, trained_model, off_data, on_
     )
 
 
+@pytest.mark.model_test
+@pytest.mark.model_3
 def test_hyperparameters_tuned(trained_model):
     """
     Ensure hyperparameters were actually tuned.
-    For GaussianNB, default var_smoothing is 1e-9; we assert var_smoothing != 1e-9.
+    For GaussianNB, default var_smoothing is 1e-9; we assert var_smoothing != 1e-9. Model 3
     """
     assert hasattr(
         trained_model, "var_smoothing"), "Model missing 'var_smoothing' attribute"
@@ -48,9 +53,11 @@ def test_hyperparameters_tuned(trained_model):
     )
 
 
+@pytest.mark.model_test
+@pytest.mark.model_5
 def test_simple_baseline_benchmark(cv, trained_model, off_data):
     """
-    Confirm model beats a trivial baseline (majority‐class predictor).
+    Confirm model beats a trivial baseline (majority‐class predictor). Model 5
     """
     x = cv.transform(off_data["Review"]).toarray()
     y = off_data["Liked"].values

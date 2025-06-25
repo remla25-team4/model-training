@@ -4,6 +4,7 @@ import pytest
 import nltk
 from nltk.corpus import wordnet
 from nltk.stem.porter import PorterStemmer
+import pandas as pd
 
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -46,6 +47,9 @@ def replace_with_synonyms(text):
     "Bad vibes, great food",
     "Prices were cheap"
 ])
+
+@pytest.mark.model_test
+@pytest.mark.model_7
 def test_synonyms_replacements(trained_model, cv, text):
     """test that replacing words with its synonyms will not flip the prediction"""
     # Load model and CV
@@ -77,3 +81,21 @@ def test_synonyms_replacements(trained_model, cv, text):
             "to\n"
             f"Variant: {mutation} -> {mutation_pred}"
         )
+
+@pytest.mark.model_test
+@pytest.mark.model_6
+def test_model_on_negative_reviews(trained_model,cv):
+    """Test model accuracy on negative reviews in the dataset."""
+    data = pd.read_csv("data/raw/training_dataset.tsv", sep="\t")
+
+    negative_data = data[data["Liked"] == 0]
+
+    if negative_data.empty:
+        pytest.skip("No negative reviews found in dataset.")
+
+    x_data = cv.transform(negative_data["Review"]).toarray()
+    y_true = negative_data["Liked"]
+    y_pred = trained_model.predict(x_data)
+
+    acc = (y_pred == y_true).mean()
+    assert acc > 0.5, f"Model underperforms on negative reviews: acc={acc:.2f}"

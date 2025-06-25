@@ -4,7 +4,10 @@ input strings contain no caps and stop words other than 'not'."""
 
 from lib_ml.preprocessing import preprocess
 import nltk
+import pytest
 
+@pytest.mark.data_test
+@pytest.mark.data_1
 def test_stopwords_removal(stopwords_data):
     """Tests stopword removal from text, ensuring 'not' is preserved."""
     nltk.download('wordnet')
@@ -16,7 +19,8 @@ def test_stopwords_removal(stopwords_data):
         assert result[0] == expected, \
             f"Failed on input: {input_text!r}. Expected {expected!r} but got {result!r}."
 
-
+@pytest.mark.data_test
+@pytest.mark.data_1
 def test_stemming(stemming_data):
     """Tests stemming of words to their root form."""
     nltk.download('wordnet')

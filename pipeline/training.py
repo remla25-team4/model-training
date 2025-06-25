@@ -24,7 +24,7 @@ def train_model(x_train, y_train):
     print("Training GaussianNB model...")
     # Using var_smoothing=1e-3 as a more common default if issues arise with 2e-9,
     # but keeping yours for now
-    classifier = GaussianNB(var_smoothing=2e-9)
+    classifier = GaussianNB(var_smoothing=1e-5)
     classifier.fit(x_train, y_train)
 
     return classifier

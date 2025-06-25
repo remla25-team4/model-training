@@ -8,9 +8,10 @@ matplotlib>=3.10.3
 pip
 python-dotenv>=1.1.0
 -e .
-scikit-learn==1.5.0
+scikit-learn>=1.7.0
 pandas==2.2.0
 numpy==1.26.3
+scipy>=1.15.0
 nltk>=3.9.1
 joblib==1.3.2 
 lib-ml @ git+https://github.com/remla25-team4/lib-ml.git@v0.1.0
@@ -19,5 +20,5 @@ pyarrow>=20.0.0
 dvc
 dvc-gdrive
 pylint>=2.17.0
-
-
+psutil>=5.8.0
+coverage

@@ -1,5 +1,11 @@
-# Data
+# Data 
+#data/**/*
+#!data/**/*.gitkeep
 !data/raw/training_dataset.tsv.dvc
+
+#Artifacts
+test_output.txt
+test_scores.txt
 
 # Mac OS-specific storage files
 .DS_Store
@@ -187,3 +193,6 @@ cython_debug/
 
 #service account key
 causal-root-460921-d8-0857aa4be999.json
+gdrive_sa_credentials.json
+.dvc/causal-root-460921-d8-0857aa4be999.json
+.dvc/gdrive_sa_credentials.json
