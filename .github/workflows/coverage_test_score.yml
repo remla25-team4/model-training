@@ -69,18 +69,18 @@ jobs:
           echo "DEBUG: COV_SCORE=$COV_SCORE"
 
           # Determine ML score badge color
-          if (( $(echo "$ML_SCORE >= 0.9" | bc -l) )); then
+          if (( $(echo "$ML_SCORE >= 7" | bc -l) )); then
             ML_COLOR="brightgreen"
-          elif (( $(echo "$ML_SCORE >= 0.75" | bc -l) )); then
+          elif (( $(echo "$ML_SCORE >= 3" | bc -l) )); then
             ML_COLOR="yellow"
           else
             ML_COLOR="red"
           fi
 
           # Determine coverage badge color
-          if (( $COV_SCORE >= 90 )); then
+          if (( $COV_SCORE >= 80 )); then
             COV_COLOR="brightgreen"
-          elif (( $COV_SCORE >= 75 )); then
+          elif (( $COV_SCORE >= 50 )); then
             COV_COLOR="yellow"
           else
             COV_COLOR="red"

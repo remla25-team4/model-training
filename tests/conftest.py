@@ -135,36 +135,48 @@ def pytest_terminal_summary(terminalreporter):
 
     print("\n\n=== ML TEST SCORE SUMMARY ===")
 
-    adequacy_ratios = []
+    scores = []
     for category, expected in expected_tests.items():
-        executed = executed_tests[category]
+        executed = len(executed_tests[category])
         total = len(expected)
-        passed = len(executed)
-        adequacy = passed / total if total else 1.0
-        adequacy_ratios.append(adequacy)
+        adequacy = executed * 2 if total else 0
+        scores.append(adequacy)
 
         print(f"\n{category.replace('_', ' ').title()}:")
-        print(f"  {passed} of {total} required subtests implemented ({adequacy:.2f})")
-        if executed:
-            print(f"  Covered subtests: {sorted(executed)}")
+        print(f"  {executed} of {total} required subtests implemented (Score: {adequacy})")
+        if executed > 0:
+            print(f"  Covered subtests: {sorted(executed_tests[category])}")
         else:
             print("  No subtests passed.")
 
 
-    ml_test_score = min(adequacy_ratios)
-    print(f"\nML Test Score: {ml_test_score:.2f} / 1.0")
+    ml_test_score = min(scores)
+    print(f"\nML Test Score: {ml_test_score}")
     print("Interpreted as:", interpret_score(ml_test_score))
 
+
 def interpret_score(score):
-    """ Defining print statement and qualitive ML Test Score"""
-    if score == 0:
-        return "More of a research project than a productionized system"
-    if score <= 1:
-        return "Not totally untested, but possibility of serious holes in reliability"
-    if score <= 2:
-        return "There’s first pass at basic productionization, additional investment needed."
-    if score <= 3:
-        return "Reasonably tested, but more of those tests and procedures may be automated."
-    if score <= 5:
-        return "Strong testing and monitoring, appropriate for mission-critical systems."
-    return "Exceptional levels of automated testing and monitoring."
+    """Defining print statement and qualitative ML Test Score"""
+    match score:
+        # Handle specific integer cases first
+        case 0:
+            return "More of a prototype project than a productionized system."
+
+        # Then handle the ranges (guards)
+        case score if 1 <= score <= 2:
+            return ("Not totally untested, but it is "
+                    "worth considering the possibility "
+                    "of serious holes in reliability.")
+        case score if 3 <= score <= 4:
+            return ("There's basic productionization, "
+                    "but additional investment may be needed.")
+        case score if 5 <= score <= 6:
+            return ("Reasonably tested, but it's "
+                    "possible that more of those "
+                    "tests and procedures may be automated.")
+        case score if 7 <= score <= 10:
+            return ("Strong levels of automated testing "
+                    "and monitoring, appropriate for critical systems.")
+        case score if score > 10:  # A check for 12+ can also be used
+            return ("Exceptional levels of automated "
+                    "testing and monitoring.")
