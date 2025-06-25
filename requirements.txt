@@ -14,7 +14,7 @@ numpy==1.26.3
 scipy>=1.15.0
 nltk>=3.9.1
 joblib==1.3.2 
-lib-ml @ git+https://github.com/remla25-team4/lib-ml.git@v0.1.0
+lib_ml @ https://github.com/remla25-team4/lib-ml/releases/download/v1.0.0/lib_ml-1.0.0-py3-none-any.whl
 pytest>=8.3.5
 pyarrow>=20.0.0
 dvc
