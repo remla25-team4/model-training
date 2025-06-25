@@ -8,7 +8,6 @@ import traceback
 
 def run_tests():
     """Run pytest with coverage and save output to file."""
-    print("Running tests with coverage...\n")
     result = subprocess.run(
         ["coverage", "run", "--source=pipeline", "-m", "pytest", "-v", "tests"],
         capture_output=True,
@@ -27,7 +26,7 @@ def extract_scores():
     with open("test_output.txt", encoding="utf-8") as output_file:
         output = output_file.read()
 
-    ml_score_match = re.search(r"ML Test Score:\s*([0-9.]+)", output)
+    ml_score_match = re.search(r"ML Test Score:\s*(\d+)", output)
     ml_score = ml_score_match.group(1) if ml_score_match else "0.0"
 
     coverage_output = subprocess.check_output(["coverage", "report"], text=True)
