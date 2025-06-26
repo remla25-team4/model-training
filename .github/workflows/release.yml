@@ -60,4 +60,57 @@ jobs:
           files: |
             models/count_vectorizer.joblib
             models/naive_bayes.joblib
+
+  bump_version_on_main:
+    name: Bump Version on Main Branch
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: 'main'
+
+      - name: Configure Git for bot user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Calculate next pre-release version
+        run: |
+          BASE_TAG=${{ github.ref_name }}
+          BASE_VERSION=${BASE_TAG#v}
+          IFS=. read -r MAJOR MINOR PATCH <<< "$BASE_VERSION"
+          
+          NEXT_PATCH=$((PATCH + 1))
+          TIMESTAMP=$(date -u +%Y%m%d%H%M%S)
+          NEXT_VERSION_STRING="v$MAJOR.$MINOR.$NEXT_PATCH-pre-$TIMESTAMP"
+          
+          echo "NEXT_VERSION=$NEXT_VERSION_STRING" >> $GITHUB_ENV
+
+      - name: Update/Create version file in pipeline/__init__.py
+        run: |
+          # Define the path to the version file
+          VERSION_FILE="pipeline/__init__.py"
+          # Create the directory if it doesn't exist
+          mkdir -p $(dirname ${VERSION_FILE})
+          # Write the version string to the file
+          echo "__version__ = \"${{ env.NEXT_VERSION }}\"" > ${VERSION_FILE}
+          echo "Updated ${VERSION_FILE} on main branch to: ${{ env.NEXT_VERSION }}"
+          cat ${VERSION_FILE}
+
+      - name: Commit and push new version to main
+        run: |
+          # Use the same file path as the previous step
+          VERSION_FILE="pipeline/__init__.py"
+          git add ${VERSION_FILE}
+          if git diff --staged --quiet; then
+            echo "No version change to commit."
+          else
+            git commit -m "chore: Bump version to ${{ env.NEXT_VERSION }} for next dev cycle"
+            git push origin main
+          fi
       
