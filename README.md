@@ -95,39 +95,26 @@ The Google Drive remote is fully configured via your DVC config file—no manual
 There are three ways to do this:
 
 ### 1. Request the JSON File
-- Email `chenyl0342@gmail.com` requesting the credentials file.
-- Once received, save it on your own device: `gdrive_sa_credentials.json`.
+- Email `y.chen-112@student.tudelft.nl` requesting the credentials file.
+- Once received, save it as: `gdrive_sa_credentials.json` in the directory .dvc of this project.
 
-### 2. Request Access to the Service Account
-- Email `chenyl0342@gmail.com` and ask to be granted access using your Google email address.
-- Once access is granted:
-  1. Go to [https://console.cloud.google.com/](https://console.cloud.google.com/)
-  2. Click the project selector (top bar) and pick the project with ID `causal-root-460921-d8`.
-  3. Navigate to "IAM & Admin" and then to "Service Accounts"
-  4. Locate the service account `restaurant-sentiment@causal-root-460921-d8.iam.gserviceaccount.com`
-  5. Click the service-account entry
-  6. Switch to the "Keys" tab
-  7. Click "Add Key" → "Create new key" → select "JSON" → "Create"  (The JSON file will download automatically)
-  8. Rename the downloaded file to `gdrive_sa_credentials.json`  
-
-### 3.  Use the Pre-Included Credential (Grading Only)
+### 2.  Use the Pre-Included Credential (Grading Only)
 **For instructors and graders only**  
 To simplify review and grading for the Release Engineering for Machine Learning Applications course, a working credential file is already included in the project submission `.zip`.
 
 You can use it without requesting access:
 
-1. Locate the file in the submission root and save it on your own device:
+1. Locate the file in the submission folder's `.dvc` directory:
    ```
    gdrive_sa_credentials.json
    ```
-
-
+   You do not have to do anything, please leave it untouched. And most importantly, do not distribute this file publicly!
 ---
 
 ## Step 2: Set Up Virtual Environment
 A virtual environment keeps dependencies isolated from your global Python setup so:
 
-### Create and activate the virtual environment:
+### Create and activate the virtual environment (Python 3.10):
 ```bash
 python3.10 -m venv venv
 source venv/bin/activate
